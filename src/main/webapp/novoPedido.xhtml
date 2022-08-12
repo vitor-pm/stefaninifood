@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Novo Pedido"></h:outputText>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<f:metadata>
+			<f:viewParam name="pedidoId" value="#{pedidoBean.pedidoId}" />
+			<f:viewAction action="#{pedidoBean.carregarPedidoPelaId}"
+				if="#{param.pedidoId != null}" />
+		</f:metadata>
+
+		<h:form style="height: 100%">
+			<h:messages id="mensagem"
+				style="float: right; color: red; padding-right: 30px;" />
+			<h:panelGrid columns="2">
+
+
+				<h:outputText value="Cliente: " />
+
+
+				<h:selectOneMenu value="#{pedidoBean.pedido.cliente.id}"
+					id="cliente" style="width: 250px;"
+					rendered="#{pedidoBean.pedidoId != 0}">
+					<f:selectItems value="#{clienteBean.clientes}" var="cliente"
+						itemLabel="#{cliente.nome}" itemValue="#{cliente.id}" />
+				</h:selectOneMenu>
+
+
+				<h:selectOneMenu value="#{pedidoBean.clienteId}" id="clienteNovo"
+					style="width: 250px;" rendered="#{pedidoBean.pedidoId == 0}">
+					<f:selectItems value="#{clienteBean.clientes}" var="cliente"
+						itemLabel="#{cliente.nome}" itemValue="#{cliente.id}" />
+				</h:selectOneMenu>
+
+				<h:outputText value="Loja: " />
+
+
+				<h:selectOneMenu value="#{pedidoBean.pedido.loja.id}" id="Lojas"
+					style="width: 250px;" rendered="#{pedidoBean.pedidoId != 0}">
+					<f:selectItems value="#{lojaBean.lojas}" var="lojas"
+						itemLabel="#{lojas.nome}" itemValue="#{lojas.id}" />
+				</h:selectOneMenu>
+
+
+				<h:selectOneMenu value="#{pedidoBean.lojaId}" id="LojasNovo"
+					style="width: 250px;" rendered="#{pedidoBean.pedidoId == 0}">
+					<f:selectItems value="#{lojaBean.lojas}" var="lojas"
+						itemLabel="#{lojas.nome}" itemValue="#{lojas.id}" />
+				</h:selectOneMenu>
+
+
+				<h:outputLabel for="descricao" value="Descricão: " />
+				<h:inputText id="descricao" value="#{pedidoBean.pedido.descricao}"
+					required="true" requiredMessage="Descrição Obrigatória">
+					<f:ajax event="blur" render="mensagem" />
+				</h:inputText>
+
+				<h:outputLabel for="status" value="Status: " />
+				<h:inputText id="status" value="#{pedidoBean.pedido.status}"
+					required="true" requiredMessage="Status Obrigatório">
+
+					<f:ajax event="blur" render="mensagem" />
+				</h:inputText>
+
+
+				<h:outputLabel for="valor" value="Preço: " />
+				<h:inputText id="valor" value="#{pedidoBean.pedido.valor}"
+					required="true" requiredMessage="Preço Obrigatório">
+
+					<f:ajax event="blur" render="mensagem" />
+				</h:inputText>
+
+				<h:commandLink value="Fazer Pedido" action="#{pedidoBean.gravar}" />
+
+			</h:panelGrid>
+
+
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

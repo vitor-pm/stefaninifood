@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Nova Loja</title>
+</head>
+<body>
+	<p:dialog id="LojaCreateDlg" widgetVar="LojaCreateDialog" modal="true"
+		resizable="false" appendTo="@(body)" header="Incluir Loja">
+		<h:form id="LojaCreateForm">
+			<h:panelGroup id="display">
+				<p:panelGrid columns="2" rendered="#{lojaBean.loja != null}">
+
+					<p:outputLabel value="Nome" for="name" />
+					<p:inputText id="name" value="#{lojaBean.loja.nome}" title="Nome"
+						required="true" requiredMessage="Nome Obrigatório" />
+
+					<p:outputLabel value="Descrição" for="descricao" />
+					<p:inputText id="descricao" value="#{lojaBean.loja.descricao}"
+						title="Descrição" required="true"
+						requiredMessage="Descrição Obrigatória" />
+
+					<p:outputLabel value="CNPJ" for="cnpj" />
+					<p:inputText id="cnpj" value="#{lojaBean.loja.cnpj}" title="CNPJ"
+						required="true" requiredMessage="CNPJ Obrigatório"
+						validator="#{lojaBean.confereCnpj}"
+						validatorMessage="Não é um CNPJ">
+
+						<f:ajax event="blur" render="mensagem" />
+					</p:inputText>
+
+					<p:outputLabel value="Telefone" for="telefone" />
+					<p:inputText id="telefone" value="#{lojaBean.loja.telefone}"
+						title="Telefone" required="true"
+						requiredMessage="Telefone Obrigatório">
+						<f:convertNumber integerOnly="true" />
+					</p:inputText>
+
+				</p:panelGrid>
+				<p:commandButton actionListener="#{lojaBean.gravar}" value="Salvar"
+					update="display,:LojaListForm:datalist,:growl"
+					oncomplete="handleSubmit(args,'LojaCreateDialog');"
+					onclick="UniversityCreateDialog.hide()" />
+				<p:commandButton value="Cancelar"
+					onclick="UniversityCreateDialog.hide()" />
+			</h:panelGroup>
+		</h:form>
+
+	</p:dialog>
+
+</body>
+</html>

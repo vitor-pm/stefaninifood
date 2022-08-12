@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Nova Loja</title>
+</head>
+<body>
+	<h:messages id="mensagem" />
+	<p:dialog id="LojaEditDlg" widgetVar="LojaEditDialog" modal="true"
+		resizable="false" appendTo="@(body)" header="Alterar Lojas">
+		<h:form id="LojaEditForm">
+			<h:panelGroup id="display">
+				<p:panelGrid columns="2" rendered="#{lojaBean.loja != null}">
+
+					<p:outputLabel value="Nome" for="name" />
+					<p:inputText id="name" value="#{lojaBean.loja.nome}" title="Nome"
+						required="true" requiredMessage="Nome Obrigatório" />
+
+					<p:outputLabel value="Descrição" for="description" />
+					<p:inputText id="description" value="#{lojaBean.loja.descricao}"
+						title="Descrição" required="true"
+						requiredMessage="Descrição Obrigatório" />
+
+					<p:outputLabel value="CNPJ" for="cnpj" />
+					<p:inputText id="cnpj" value="#{lojaBean.loja.cnpj}" title="CNPJ"
+						required="true" requiredMessage="CNPJ Obrigatório">
+						<f:convertNumber integerOnly="true" />
+					</p:inputText>
+
+					<p:outputLabel value="Telefone" for="telefone" />
+					<p:inputText id="telefone" value="#{lojaBean.loja.telefone}"
+						title="Telefone" required="true"
+						requiredMessage="Telefone Obrigatório">
+						<f:convertNumber integerOnly="true" />
+					</p:inputText>
+
+				</p:panelGrid>
+				<p:commandButton actionListener="#{lojaBean.gravar}" value="Salvar"
+					update="display,:LojaListForm:datalist,:growl"
+					oncomplete="handleSubmit(args, 'LojaEditDialog');"
+					onclick="LojaEditDialog.hide()" />
+				<p:commandButton value="Cancelar" onclick="LojaEditDialog.hide()" />
+			</h:panelGroup>
+		</h:form>
+	</p:dialog>
+
+</body>
+</html>

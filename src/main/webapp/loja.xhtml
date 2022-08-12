@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Lojas"></h:outputText>
+	</ui:define>
+
+	<ui:define name="body">
+		<h:form id="LojaListForm">
+			<p:panel header="Lista de Lojas">
+				<p:dataTable id="datalist" value="#{lojaBean.lojas}" var="loja"
+					rowKey="#{loja.id}" selection="#{lojaBean.loja}"
+					selectionMode="single" paginator="true" rows="5"
+					rowsPerPageTemplate="5,10,20,30,40,50">
+
+					<p:ajax event="rowSelect"
+						update="createButton editButton deleteButton"></p:ajax>
+
+					<p:column style="text-align: center;" width="100">
+						<f:facet name="header">
+							<h:outputText value="Código" />
+						</f:facet>
+						<h:outputText value="#{loja.id}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Nome" />
+						</f:facet>
+						<h:outputText value="#{loja.nome}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Descrição" />
+						</f:facet>
+						<h:outputText value="#{loja.descricao}" />
+					</p:column>
+
+					<p:column style="text-align: center;">
+						<f:facet name="header">
+							<h:outputText value="CNPJ" />
+						</f:facet>
+						<h:outputText value="#{loja.cnpj}">
+						</h:outputText>
+					</p:column>
+
+					<p:column style="text-align: center;">
+						<f:facet name="header">
+							<h:outputText value="Telefone" />
+						</f:facet>
+						<h:outputText value="#{loja.telefone}" />
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton id="createButton" icon="ui-icon-plus"
+							value="incluir" actionListener="#{lojaBean.prepareCreate}"
+							update=":LojaCreateForm"
+							oncomplete="PF('LojaCreateDialog').show()" />
+
+						<p:commandButton id="editButton" icon="ui-icon-pencil"
+							value="Alterar" update=":LojaEditForm"
+							oncomplete="PF('LojaEditDialog').show()"
+							disabled="#{empty lojaBean.loja}" />
+
+						<p:commandButton id="deleteButton" icon="ui-icon-trash"
+							value="Excluir" actionListener="#{lojaBean.destroy}"
+							update=":growl,datalist" disabled="#{empty lojaBean.loja}">
+							<p:confirm header="Apagar Loja"
+								message="Tem certeza que deseja apagar a Loja?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+							responsive="true" width="350">
+							<p:commandButton value="Nâo" type="button"
+								styleClass="ui-confirmdialog-no ui-button-flat" />
+							<p:commandButton value="Sim" type="button"
+								styleClass="ui-confirmdialog-yes" />
+						</p:confirmDialog>
+					</f:facet>
+
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+		<h:form id="ClienteListForm">
+			<p:panel header="Lista de Clientes">
+				<p:dataTable id="datalist" value="#{clienteBean.clientes}"
+					var="cliente" rowKey="#{cliente.id}"
+					selection="#{clienteBean.cliente}" selectionMode="single"
+					paginator="true" rows="5" rowsPerPageTemplate="5,10,20,30,40,50">
+
+					<p:ajax event="rowSelect"
+						update="createButtonCliente editButtonCliente deleteButtonCliente"></p:ajax>
+
+					<p:column style="text-align: center;" width="100">
+						<f:facet name="header">
+							<h:outputText value="Código" />
+						</f:facet>
+						<h:outputText value="#{cliente.id}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Nome" />
+						</f:facet>
+						<h:outputText value="#{cliente.nome}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Endereço" />
+						</f:facet>
+						<h:outputText value="#{cliente.endereco}" />
+					</p:column>
+
+					<p:column style="text-align: center;">
+						<f:facet name="header">
+							<h:outputText value="Telefone" />
+						</f:facet>
+						<h:outputText value="#{cliente.telefone}" />
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton id="createButtonCliente" icon="ui-icon-plus"
+							value="incluir" actionListener="#{clienteBean.prepareCreate}"
+							update=":ClienteCreateForm"
+							oncomplete="PF('ClienteCreateDialog').show()" />
+
+						<p:commandButton id="editButtonCliente" icon="ui-icon-pencil"
+							value="Alterar" update=":ClienteEditForm"
+							oncomplete="PF('ClienteEditDialog').show()"
+							disabled="#{empty clienteBean.cliente}" />
+
+						<p:commandButton id="deleteButtonCliente" icon="ui-icon-trash"
+							value="Excluir" actionListener="#{clienteBean.destroy}"
+							update=":growl,datalist" disabled="#{empty clienteBean.cliente}">
+							<p:confirm header="Apagar Cliente"
+								message="Tem certeza que deseja excluir o cliente?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+							responsive="true" width="350">
+							<p:commandButton value="Nâo" type="button"
+								styleClass="ui-confirmdialog-no ui-button-flat" />
+							<p:commandLink value="Sim" styleClass="ui-confirmdialog-yes" />
+						</p:confirmDialog>
+					</f:facet>
+
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+		<ui:include src="incluirLoja.xhtml" />
+		<ui:include src="editarLoja.xhtml" />
+		<ui:include src="incluirCliente.xhtml" />
+		<ui:include src="editarCliente.xhtml"></ui:include>
+	</ui:define>
+</ui:composition>
+</html>
